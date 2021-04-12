@@ -1,11 +1,15 @@
 import React from "react";
-import Form from "./component/form/Form";
-import "./style/Veu.css";
+import Login from "./components/login/Login";
+import { BrowserRouter, Route } from "react-router-dom";
+import Hero from "./components/hero/Hero";
 
 export default function App() {
   return (
     <>
-      <Form />
+      <BrowserRouter>
+        <Route path="/" exact component={Login}></Route>
+        <Route path="/quiz" component={Hero}></Route>
+      </BrowserRouter>
     </>
   );
 }
