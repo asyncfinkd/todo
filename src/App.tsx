@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Hero from "./components/hero/Hero";
-import { ApplicationContext } from "./context/app/ApplicationContext";
+import React, { useState } from 'react';
+import Hero from './components/hero/hero';
+import { ApplicationContext } from './context/app/ApplicationContext';
 
 export default function App() {
   const [todo, setTodo] = useState<any>([]);
