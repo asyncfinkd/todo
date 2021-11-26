@@ -8,7 +8,14 @@ export default function List() {
   return (
     <>
       {todo?.map((item: any) => {
-        return <ListMap todo={item.todo} id={item.id} />;
+        return (
+          <ListMap
+            todo={item.todo}
+            id={item.id}
+            container={todo}
+            setItem={setTodo}
+          />
+        );
       })}
     </>
   );
