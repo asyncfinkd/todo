@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import List from "../list/List";
 
 export default function Hero() {
   const [input, setInput] = useState<string>("");
@@ -12,6 +13,7 @@ export default function Hero() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
+        <List />
       </div>
     </>
   );

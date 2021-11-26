@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Hero from "./components/hero/Hero";
+import { ApplicationContext } from "./context/app/ApplicationContext";
 
 export default function App() {
+  const [todo, setTodo] = useState<any>([]);
+
   return (
     <>
-      <Hero />
+      <ApplicationContext.Provider value={{ todo, setTodo }}>
+        <Hero />
+      </ApplicationContext.Provider>
     </>
   );
 }
