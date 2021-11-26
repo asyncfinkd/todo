@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function ListMap({ container, todo, id, setItem }: any) {
+  const [update, setUpdate] = useState<boolean>(false);
+  const [newValue, setNewValue] = useState<string>('');
+
   const deleteHandle = (id: any) => {
     const updateList = container.filter((item: any) => item.id !== id);
 
@@ -9,6 +12,31 @@ export default function ListMap({ container, todo, id, setItem }: any) {
   return (
     <>
       <p onClick={() => deleteHandle(id)}>{todo}</p>
+      <button
+        onClick={() => {
+          setUpdate(!update);
+        }}
+      >
+        {update ? 'close' : 'edit'}
+      </button>
+      {update && (
+        <>
+          <input
+            type="text"
+            value={newValue}
+            onChange={(e) => setNewValue(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              console.log(todo);
+              todo = newValue;
+              console.log(todo);
+            }}
+          >
+            Done
+          </button>
+        </>
+      )}
     </>
   );
 }
