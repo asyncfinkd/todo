@@ -9,6 +9,10 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import SignInCopyrightModule from './signin-copyright';
+import {
+  SignInModuleFixture,
+  TSignInModuleFixtures,
+} from '../../fixtures/modules/signin';
 
 export default function SignInRightAreaModule() {
   return (
@@ -35,26 +39,21 @@ export default function SignInRightAreaModule() {
             // onSubmit={handleSubmit}
             sx={{ mt: 1 }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="ელ.ფოსტა"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="პაროლი"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
+            {SignInModuleFixture.map((item: TSignInModuleFixtures) => {
+              return (
+                <>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    name={item.id}
+                    label={item.label}
+                    type={item.type}
+                    id={item.id}
+                    autoComplete={item.id}
+                  />
+                </>
+              );
+            })}
             <Button
               type="submit"
               fullWidth
