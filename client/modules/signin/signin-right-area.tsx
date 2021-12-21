@@ -53,8 +53,9 @@ export default function SignInRightAreaModule() {
                 document.cookie = `token=${result.access_token};path=/`
 
                 let decodedData: any = decode(result.access_token)
+                const reData = { ...decodedData, logged: true }
 
-                setAccess_Token(decodedData)
+                setAccess_Token(reData)
                 Router.push('/')
               })
             })}
