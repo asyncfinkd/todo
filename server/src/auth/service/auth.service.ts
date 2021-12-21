@@ -72,6 +72,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Refreshs token
+   * @param _id
+   * @returns
+   */
   async refreshToken(_id: string) {
     try {
       const user = await this.userModel.findById({ _id: _id })

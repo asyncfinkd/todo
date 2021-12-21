@@ -11,8 +11,6 @@ interface TAuth {
 /**
  * Controller
  */
-/**
- */
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
@@ -32,6 +30,11 @@ export class AuthController {
     return this.authService.signinLocal(dto)
   }
 
+  /**
+   * Apis bearer auth
+   * @param req
+   * @returns
+   */
   @ApiBearerAuth('access-token')
   @UseGuards(AuthGuard('jwt'))
   @Post('refresh')
