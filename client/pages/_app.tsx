@@ -35,7 +35,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <ApplicationContext.Provider value={{ access_token, setAccess_Token }}>
-        {console.log(access_token)}
         <Toaster position="bottom-right" reverseOrder={false} />
         <Component {...pageProps} />
       </ApplicationContext.Provider>
