@@ -14,14 +14,13 @@ export class RegisterService {
 
   async registerUser(user: RegisterDto) {
     try {
-      const role = 'user'
       const newUser = new this.userModel(user)
       await newUser.save()
 
       return this.generateToken(
         user.email,
         user.email,
-        role,
+        user.role,
         user.name,
         user.lastName,
       )
