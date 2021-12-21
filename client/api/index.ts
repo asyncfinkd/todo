@@ -21,6 +21,7 @@ export const request = async <T>(
 
   if (response.ok) {
     const success = (await response.json()) as T
+    // @ts-ignore
     toast.success(success.message)
     return success
   } else {

@@ -18,6 +18,7 @@ import { useForm, get } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import toast from 'react-hot-toast'
 import { SignInRequest } from 'features/signin'
+import Router from 'next/router'
 
 export default function SignInRightAreaModule() {
   const { register, handleSubmit, formState } = useForm<TSignInProps>({
@@ -46,7 +47,11 @@ export default function SignInRightAreaModule() {
             component="form"
             noValidate
             onSubmit={handleSubmit((data: TSignInProps) => {
-              SignInRequest({ data })
+              SignInRequest({ data }).then((result: any) => {
+                document.cookie = `cookie=${result.access_token};path=/`
+
+                Router.push('/')
+              })
             })}
             sx={{ mt: 1 }}
           >
