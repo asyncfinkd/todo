@@ -21,11 +21,7 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
+      {'ყველა უფლება დაცულია © '} {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
@@ -91,7 +87,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="ელ.ფოსტა"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -101,14 +97,10 @@ export default function SignInSide() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="პაროლი"
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
               />
               <Button
                 type="submit"
@@ -116,17 +108,17 @@ export default function SignInSide() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                შესვლა
               </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    Forgot password?
+                    დაგავიწყდა პაროლი?
                   </Link>
                 </Grid>
                 <Grid item>
                   <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                    {'არ გაქვთ ანგარიში? დარეგისტრირდი'}
                   </Link>
                 </Grid>
               </Grid>
