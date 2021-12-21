@@ -16,5 +16,6 @@ export const ApplicationContext = React.createContext<Props>({
     logged: false,
     role: '',
     lastName: '',
+    image: '',
   },
 })

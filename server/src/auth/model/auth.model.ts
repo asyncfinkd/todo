@@ -19,6 +19,9 @@ export class UserSchema {
 
   @Prop()
   password: string
+
+  @Prop()
+  image: string
 }
 
 export interface IUser {
@@ -28,6 +31,7 @@ export interface IUser {
   lastName: string
   role: string
   password: string
+  image: string
 }
 
 export const User = SchemaFactory.createForClass(UserSchema)

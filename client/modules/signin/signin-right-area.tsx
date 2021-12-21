@@ -54,7 +54,6 @@ export default function SignInRightAreaModule() {
 
                 let decodedData: any = decode(result.access_token)
 
-                console.log(decodedData)
                 setAccess_Token(decodedData)
                 Router.push('/')
               })

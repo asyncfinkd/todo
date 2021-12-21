@@ -8,5 +8,6 @@ export const __TOKEN__MOCKS__ = () => {
     logged: false,
     name: '',
     lastName: '',
+    image: '',
   }
 }

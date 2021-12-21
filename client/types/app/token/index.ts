@@ -7,4 +7,5 @@ export interface TokenProps {
   role?: string
   logged: boolean
   lastName?: string
+  image?: string
 }
