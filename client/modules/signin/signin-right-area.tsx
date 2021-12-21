@@ -12,7 +12,7 @@ import SignInCopyrightModule from './signin-copyright';
 import {
   SignInModuleFixture,
   TSignInModuleFixtures,
-} from '../../fixtures/modules/signin';
+} from 'fixtures/modules/signin';
 
 export default function SignInRightAreaModule() {
   return (
