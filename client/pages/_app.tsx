@@ -4,9 +4,8 @@ import NProgress from 'nprogress';
 import Router from 'next/router';
 import { isServer } from '../shared/is-server';
 import { PageComponent } from '../types/pages/_app';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import 'nprogress/nprogress.css';
+import { Toaster } from 'react-hot-toast';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -24,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   return (
     <>
-      <ToastContainer />
+      <Toaster position="bottom-right" reverseOrder={false} />
       <Component {...pageProps} />
     </>
   );
