@@ -42,6 +42,7 @@ export class AuthService {
       user.role,
       user.name,
       user.lastName,
+      user.image,
     )
   }
 
@@ -58,6 +59,7 @@ export class AuthService {
     role: string,
     name: string,
     lastName: string,
+    image: string,
   ) {
     return {
       success: true,
@@ -67,6 +69,7 @@ export class AuthService {
         role,
         name,
         lastName,
+        image,
       }),
       message: 'თქვენ წარმატებით გაიარეთ ავტორიზაცია',
     }
@@ -90,6 +93,7 @@ export class AuthService {
             role: user.email,
             name: user.name,
             lastName: user.lastName,
+            image: user.image,
           }),
         }
       }
