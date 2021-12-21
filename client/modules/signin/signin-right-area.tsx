@@ -17,6 +17,7 @@ import { SignInSchema, TSignInProps } from 'schema/pages/signin'
 import { useForm, get } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import env from 'environment/env.json'
+import toast from 'react-hot-toast'
 
 export default function SignInRightAreaModule() {
   const { register, handleSubmit, formState } = useForm<TSignInProps>({
@@ -52,7 +53,11 @@ export default function SignInRightAreaModule() {
               })
                 .then((res) => res.json())
                 .then((response) => {
-                  console.log(response)
+                  if (!response.success) {
+                    toast.error('ელ.ფოსტა ან პაროლი არასწორია')
+                  } else {
+                    toast.success('თქვენ წარმატებით გაიარეთ ავტორიზაცია')
+                  }
                 })
             })}
             sx={{ mt: 1 }}

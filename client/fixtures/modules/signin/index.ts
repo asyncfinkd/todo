@@ -17,9 +17,13 @@ export const SignInModuleFixture = [
   },
 ]
 
+export interface TSignInModuleFixturesO {
+  message: string
+}
+
 export interface TSignInModuleFixtures {
   id: string
   label: string
   type: string
-  required: any
+  required: TSignInModuleFixturesO
 }
