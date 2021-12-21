@@ -19,8 +19,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import toast from 'react-hot-toast'
 import { SignInRequest } from 'features/signin'
 import Router from 'next/router'
+import { useDispatch } from 'react-redux'
+import decode from 'jwt-decode'
+import { login } from 'store'
 
 export default function SignInRightAreaModule() {
+  const dispatch = useDispatch()
   const { register, handleSubmit, formState } = useForm<TSignInProps>({
     resolver: yupResolver(SignInSchema),
   })
@@ -50,6 +54,18 @@ export default function SignInRightAreaModule() {
               SignInRequest({ data }).then((result: any) => {
                 document.cookie = `cookie=${result.access_token};path=/`
 
+                let decodedData: any = decode(result.access_token)
+
+                dispatch(
+                  login({
+                    _id: decodedData._id,
+                    name: decodedData.name,
+                    lastName: decodedData.lastName,
+                    email: decodedData.email,
+                    role: decodedData.role,
+                    logged: true,
+                  })
+                )
                 Router.push('/')
               })
             })}
