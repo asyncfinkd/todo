@@ -6,9 +6,6 @@ import { isServer } from '../lib/is-server'
 import { PageComponent } from '../types/pages/_app'
 import 'nprogress/nprogress.css'
 import { Toaster } from 'react-hot-toast'
-import { Provider } from 'react-redux'
-import { configureStore } from '@reduxjs/toolkit'
-import UserReducer from 'store'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
@@ -24,18 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   ) {
     return null
   }
-
-  const store = configureStore({
-    reducer: {
-      user: UserReducer,
-    },
-  })
   return (
     <>
-      <Provider store={store}>
-        <Toaster position="bottom-right" reverseOrder={false} />
-        <Component {...pageProps} />
-      </Provider>
+      <Toaster position="bottom-right" reverseOrder={false} />
+      <Component {...pageProps} />
     </>
   )
 }

@@ -16,15 +16,11 @@ import {
 import { SignInSchema, TSignInProps } from 'schema/pages/signin'
 import { useForm, get } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import toast from 'react-hot-toast'
 import { SignInRequest } from 'features/signin'
 import Router from 'next/router'
-import { useDispatch } from 'react-redux'
 import decode from 'jwt-decode'
-import { login } from 'store'
 
 export default function SignInRightAreaModule() {
-  const dispatch = useDispatch()
   const { register, handleSubmit, formState } = useForm<TSignInProps>({
     resolver: yupResolver(SignInSchema),
   })
@@ -56,16 +52,7 @@ export default function SignInRightAreaModule() {
 
                 let decodedData: any = decode(result.access_token)
 
-                dispatch(
-                  login({
-                    _id: decodedData._id,
-                    name: decodedData.name,
-                    lastName: decodedData.lastName,
-                    email: decodedData.email,
-                    role: decodedData.role,
-                    logged: true,
-                  })
-                )
+                console.log(decodedData)
                 Router.push('/')
               })
             })}
