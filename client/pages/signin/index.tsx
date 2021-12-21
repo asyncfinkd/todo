@@ -7,11 +7,6 @@ import SignInRightAreaModule from '../../modules/signin/signin-right-area';
 const theme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
