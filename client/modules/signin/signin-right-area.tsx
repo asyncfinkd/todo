@@ -1,7 +1,7 @@
 import Paper from '@mui/material/Paper'
 import Link from '@mui/material/Link'
 import Button from '@mui/material/Button'
-import React from 'react'
+import React, { useContext } from 'react'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
@@ -19,11 +19,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { SignInRequest } from 'features/signin'
 import Router from 'next/router'
 import decode from 'jwt-decode'
+import { ApplicationContext } from 'context/application'
 
 export default function SignInRightAreaModule() {
   const { register, handleSubmit, formState } = useForm<TSignInProps>({
     resolver: yupResolver(SignInSchema),
   })
+  const { setAccess_Token } = useContext(ApplicationContext)
 
   return (
     <>
@@ -53,6 +55,7 @@ export default function SignInRightAreaModule() {
                 let decodedData: any = decode(result.access_token)
 
                 console.log(decodedData)
+                setAccess_Token(decodedData)
                 Router.push('/')
               })
             })}

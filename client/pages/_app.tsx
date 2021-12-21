@@ -6,6 +6,9 @@ import { isServer } from '../lib/is-server'
 import { PageComponent } from '../types/pages/_app'
 import 'nprogress/nprogress.css'
 import { Toaster } from 'react-hot-toast'
+import { ApplicationContext } from 'context/application'
+import { useState } from 'react'
+import { __TOKEN__MOCKS__ } from 'mocks/app/token'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
@@ -13,6 +16,8 @@ Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
   NProgress.settings.showSpinner = false
+
+  const [access_token, setAccess_Token] = useState(__TOKEN__MOCKS__)
 
   if (
     isServer &&
@@ -23,8 +28,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   return (
     <>
-      <Toaster position="bottom-right" reverseOrder={false} />
-      <Component {...pageProps} />
+      <ApplicationContext.Provider value={{ access_token, setAccess_Token }}>
+        <Toaster position="bottom-right" reverseOrder={false} />
+        <Component {...pageProps} />
+      </ApplicationContext.Provider>
     </>
   )
 }
