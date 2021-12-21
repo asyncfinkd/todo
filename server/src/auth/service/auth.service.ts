@@ -31,7 +31,6 @@ export class AuthService {
    * @returns
    */
   async signinLocal(dto: AuthDto) {
-    console.log(dto)
     const user = await this.userModel.findOne({ email: dto.email })
     if (!user) throw new UnauthorizedException('Credentials incorrect')
     if (user.password !== dto.password)

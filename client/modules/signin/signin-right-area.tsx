@@ -1,20 +1,28 @@
-import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
-import React from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import SignInCopyrightModule from './signin-copyright';
+import Paper from '@mui/material/Paper'
+import Link from '@mui/material/Link'
+import Button from '@mui/material/Button'
+import React from 'react'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Avatar from '@mui/material/Avatar'
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField'
+import Box from '@mui/material/Box'
+import SignInCopyrightModule from './signin-copyright'
 import {
   SignInModuleFixture,
   TSignInModuleFixtures,
-} from 'fixtures/modules/signin';
+} from 'fixtures/modules/signin'
+import { SignInSchema, TSignInProps } from 'schema/pages/signin'
+import { useForm, get } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import env from 'environment/env.json'
 
 export default function SignInRightAreaModule() {
+  const { register, handleSubmit, formState } = useForm<TSignInProps>({
+    resolver: yupResolver(SignInSchema),
+  })
+
   return (
     <>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -31,28 +39,45 @@ export default function SignInRightAreaModule() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            შესვლა
           </Typography>
           <Box
             component="form"
             noValidate
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit((data: TSignInProps) => {
+              fetch(`${env.server_url}/api/auth`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+              })
+                .then((res) => res.json())
+                .then((response) => {
+                  console.log(response)
+                })
+            })}
             sx={{ mt: 1 }}
           >
             {SignInModuleFixture.map((item: TSignInModuleFixtures) => {
+              const { id, type, label } = item
+
               return (
                 <>
                   <TextField
                     margin="normal"
                     fullWidth
-                    name={item.id}
-                    label={item.label}
-                    type={item.type}
-                    id={item.id}
-                    autoComplete={item.id}
+                    label={label}
+                    type={type}
+                    id={id}
+                    autoComplete={id}
+                    error={get(formState.errors, id)}
+                    helperText={
+                      get(formState.errors, id) && item.required.message
+                    }
+                    // @ts-ignore
+                    {...register(id)}
                   />
                 </>
-              );
+              )
             })}
             <Button
               type="submit"
@@ -79,5 +104,5 @@ export default function SignInRightAreaModule() {
         </Box>
       </Grid>
     </>
-  );
+  )
 }
