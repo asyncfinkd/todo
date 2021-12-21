@@ -50,7 +50,7 @@ export default function SignInRightAreaModule() {
             noValidate
             onSubmit={handleSubmit((data: TSignInProps) => {
               SignInRequest({ data }).then((result: any) => {
-                document.cookie = `cookie=${result.access_token};path=/`
+                document.cookie = `token=${result.access_token};path=/`
 
                 let decodedData: any = decode(result.access_token)
 

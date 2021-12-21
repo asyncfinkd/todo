@@ -1,3 +1,4 @@
+import { isServer } from 'lib/is-server'
 import { readCookie } from 'lib/read-cookie'
 import { generateHeader } from 'lib/use-header'
 import toast from 'react-hot-toast'
@@ -7,7 +8,8 @@ export const request = async <T>(
   method: 'GET' | 'POST' | 'DELETE' | 'PUT',
   contentType: 'FORM' | 'JSON',
   body?: Record<string | number, any> | BodyInit | null,
-  serverSideToken?: boolean
+  serverSideToken?: boolean,
+  notification?: boolean
 ) => {
   const token: any = serverSideToken && readCookie('token')
 
@@ -21,15 +23,26 @@ export const request = async <T>(
 
   if (response.ok) {
     const success = (await response.json()) as T
-    // @ts-ignore
-    toast.success(success.message)
+    if (notification) {
+      // @ts-ignore
+      toast.success(success.message)
+    }
     return success
   } else {
     const error = (await response.json()) as T
     // @ts-ignore
-    toast.error(error.message)
+    if (notification) {
+      // @ts-ignore
+      toast.error(error.message)
+    }
     return Promise.reject({
       ...error,
     }) as unknown as T
+  }
+}
+
+export const refreshToken = async () => {
+  if (readCookie('token')) {
+    request(`/api/auth/refresh`, 'POST', 'JSON', null, true)
   }
 }

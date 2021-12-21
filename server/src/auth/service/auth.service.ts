@@ -83,6 +83,7 @@ export class AuthService {
 
       if (user) {
         return {
+          success: true,
           access_token: this.jwtService.sign({
             userID: user._id,
             email: user.email,
