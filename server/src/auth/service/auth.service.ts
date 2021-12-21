@@ -32,9 +32,9 @@ export class AuthService {
    */
   async signinLocal(dto: AuthDto) {
     const user = await this.userModel.findOne({ email: dto.email })
-    if (!user) throw new UnauthorizedException('Credentials incorrect')
+    if (!user) throw new UnauthorizedException('ელ.ფოსტა ან პაროლი არასწორია')
     if (user.password !== dto.password)
-      throw new UnauthorizedException('Credentials incorrect')
+      throw new UnauthorizedException('ელ.ფოსტა ან პაროლი არასწორია')
 
     return this.signUser(
       user._id,
@@ -68,6 +68,7 @@ export class AuthService {
         name,
         lastName,
       }),
+      message: 'თქვენ წარმატებით გაიარეთ ავტორიზაცია',
     }
   }
 
