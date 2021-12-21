@@ -10,6 +10,7 @@ import {
   BadRequestException,
   Catch,
   ExceptionFilter,
+  ValidationError,
   ValidationPipe,
 } from '@nestjs/common'
 
@@ -72,11 +73,16 @@ async function bootstrap() {
   app.useGlobalFilters(new ValidationFilter())
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      disableErrorMessages:
-        process.env.NODE_ENV === 'production' ? true : false,
+      skipMissingProperties: false,
+      exceptionFactory: (errors: ValidationError[]) => {
+        const messages = errors.map((error) => {
+          return {
+            error: `${error.property} has wrong value ${error.value}.`,
+            message: Object.values(error.constraints).join('-'),
+          }
+        })
+        return new ValidationException(messages)
+      },
     }),
   )
 

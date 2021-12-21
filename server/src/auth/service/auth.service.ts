@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectModel } from '@nestjs/mongoose'
 import { AuthDto } from 'src/auth/dto/auth.dto'
@@ -27,6 +31,7 @@ export class AuthService {
    * @returns
    */
   async signinLocal(dto: AuthDto) {
+    console.log(dto)
     const user = await this.userModel.findOne({ email: dto.email })
     if (!user) throw new UnauthorizedException('Credentials incorrect')
     if (user.password !== dto.password)
@@ -64,6 +69,28 @@ export class AuthService {
         name,
         lastName,
       }),
+    }
+  }
+
+  async refreshToken(_id: string) {
+    try {
+      const user = await this.userModel.findById({ _id: _id })
+
+      if (user) {
+        return {
+          access_token: this.jwtService.sign({
+            userID: user._id,
+            email: user.email,
+            role: user.email,
+            name: user.name,
+            lastName: user.lastName,
+          }),
+        }
+      }
+
+      throw new UnauthorizedException('Credentials incorrect')
+    } catch (err) {
+      throw new InternalServerErrorException({ description: err })
     }
   }
 }

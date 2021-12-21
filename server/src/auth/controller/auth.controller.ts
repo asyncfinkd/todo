@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common'
-import { ApiBody, ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger'
 import { AuthDto } from 'src/auth/dto/auth.dto'
 import { AuthService } from '../service/auth.service'
 
@@ -29,5 +30,14 @@ export class AuthController {
   @ApiBody({ type: AuthDto })
   authStudent(@Body() dto: AuthDto): Promise<TAuth> {
     return this.authService.signinLocal(dto)
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(AuthGuard('jwt'))
+  @Post('refresh')
+  async refreshToken(@Req() req) {
+    const result = await this.authService.refreshToken(req.user.userID)
+
+    return result
   }
 }
