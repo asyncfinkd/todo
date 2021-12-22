@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { UserDocument, UserSchema } from 'src/auth/model/auth.model'
@@ -16,7 +16,7 @@ export class TodoService {
 
       return { item: user.todos, success: true }
     } catch (err) {
-      return err
+      throw new InternalServerErrorException({ description: err })
     }
   }
 
@@ -32,7 +32,7 @@ export class TodoService {
       })
       item.save()
     } catch (err) {
-      return err
+      throw new InternalServerErrorException({ description: err })
     }
   }
 
@@ -43,7 +43,7 @@ export class TodoService {
       user.todos.push(req)
       user.save()
     } catch (err) {
-      return err
+      throw new InternalServerErrorException({ description: err })
     }
   }
 }
