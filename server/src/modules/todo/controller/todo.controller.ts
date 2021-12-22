@@ -16,7 +16,7 @@ export class TodoController {
   @ApiTags('Todo')
   @Post('add/personal/:id/todo/:category')
   addTodo(
-    @Body() req,
+    @Body() req: AddTodoTopicDto,
     @Param('id') id: string,
     @Param('category') category: string,
   ) {
