@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
@@ -37,9 +38,9 @@ export class TodoService {
     }
   }
 
-  async editTodo(req: any) {
+  async editTodo(authReq: any, req: any) {
     try {
-      const user = await this.userModel.findById({ _id: req.id })
+      const user = await this.userModel.findById({ _id: authReq.userID })
 
       user.todos.map((item) => {
         console.log(item)
