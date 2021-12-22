@@ -24,8 +24,12 @@ interface Props {
   window?: () => Window
 }
 
-export default function MyTodosDetailPages({ data }: any, props: Props) {
+export default function MyTodosDetailPages(
+  { data, onceData }: any,
+  props: Props
+) {
   const [info, setInfo] = useState(data)
+  const [onceItem, setOnceItem] = useState(onceData)
 
   const { window } = props
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -55,6 +59,7 @@ export default function MyTodosDetailPages({ data }: any, props: Props) {
 
   return (
     <>
+      {console.log(onceItem)}
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar
@@ -75,7 +80,7 @@ export default function MyTodosDetailPages({ data }: any, props: Props) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Responsive drawer
+              {onceItem.text}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -163,7 +168,7 @@ export default function MyTodosDetailPages({ data }: any, props: Props) {
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { req, res } = ctx
+  const { req } = ctx
   const { cookies } = req
 
   const request = await fetch(
@@ -177,7 +182,20 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   )
 
+  const detailTodoRequest = await fetch(
+    `${process.env.SERVER_URL}/api/get/personal/todo/${ctx.query.id}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    }
+  )
+
   const response = await request.json()
 
-  return { props: { data: response.item } }
+  const detailTodoResponse = await detailTodoRequest.json()
+
+  return { props: { data: response.item, onceData: detailTodoResponse.item } }
 }
