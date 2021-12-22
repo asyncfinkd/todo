@@ -147,21 +147,25 @@ export const Header = () => {
           ) : (
             <>
               <Box sx={{ display: 'flex', gap: '15px' }}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    fontFamily: 'MarkGEO',
-                    bgcolor: '#f1f2f5',
-                    '&:hover': {
-                      backgroundColor: '#f1f2f5',
-                    },
-                  }}
-                >
-                  შესვლა
-                </Button>
-                <Button variant="contained" sx={{ fontFamily: 'MarkGEO' }}>
-                  რეგისტრაცია
-                </Button>
+                <Link href="/signin" passHref>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      fontFamily: 'MarkGEO',
+                      bgcolor: '#f1f2f5',
+                      '&:hover': {
+                        backgroundColor: '#f1f2f5',
+                      },
+                    }}
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/signup" passHref>
+                  <Button variant="contained" sx={{ fontFamily: 'MarkGEO' }}>
+                    რეგისტრაცია
+                  </Button>
+                </Link>
               </Box>
             </>
           )}
