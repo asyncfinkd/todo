@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common'
-import { ApiBody, ApiTags } from '@nestjs/swagger'
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger'
 import { AddTodoTopicDto } from '../dto/todo.dto'
 import { TodoService } from '../service/todo.service'
 
@@ -8,25 +17,34 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @ApiTags('Todo')
-  @Get('get/personal/:id/todo')
-  getTodo(@Param('id') id: string) {
-    return this.todoService.getItems(id)
+  @ApiBearerAuth('access-token')
+  @UseGuards(AuthGuard('jwt'))
+  @Get('get/personal/todo')
+  getTodo(@Req() req) {
+    return this.todoService.getItems(req.user)
   }
 
   @ApiTags('Todo')
-  @Post('add/personal/:id/todo/:category')
-  addTodo(
-    @Body() req: AddTodoTopicDto,
-    @Param('id') id: string,
-    @Param('category') category: string,
-  ) {
-    return this.todoService.addItem(req, id, category)
+  @Post('add/personal/todo/:category')
+  addTodo(@Body() req: AddTodoTopicDto, @Param('category') category: string) {
+    return this.todoService.addItem(req, category)
   }
+
+  @ApiTags('Todo')
+  @Post('edit/personal/todo')
+  editTodo(@Body() req) {}
 
   @ApiTags('Todo')
   @ApiBody({ type: AddTodoTopicDto })
-  @Post('add/personal/:id/todo')
-  addTodoHeader(@Body() req: AddTodoTopicDto, @Param('id') id: string) {
-    return this.todoService.addTodoHeader(req, id)
+  @Post('add/personal/todo')
+  addTodoHeader(@Body() req: AddTodoTopicDto) {
+    return this.todoService.addTodoHeader(req)
   }
+
+  // @ApiTags('Todo')
+  // @ApiBody({})
+  // @Post('delete/personal/:id/todo/:todoID')
+  // deleteTodoHeader(@Param('id') id: string, @Param('todoID') todoID: string) {
+  //   return this.todoService.deleteTodoHeader(id, todoID)
+  // }
 }

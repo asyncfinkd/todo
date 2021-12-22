@@ -10,9 +10,10 @@ export class TodoService {
     private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async getItems(id: string) {
+  async getItems(req: any) {
     try {
-      const user = await this.userModel.findById({ _id: id })
+      console.log(req)
+      const user = await this.userModel.findById({ _id: req.userID })
 
       return { item: user.todos, success: true }
     } catch (err) {
@@ -20,9 +21,9 @@ export class TodoService {
     }
   }
 
-  async addItem(req: any, id: string, category: string) {
+  async addItem(req: any, category: string) {
     try {
-      const item = await this.userModel.findById({ _id: id })
+      const item = await this.userModel.findById({ _id: req.id })
 
       item.todos.map((secondItem) => {
         // @ts-ignore
@@ -36,9 +37,21 @@ export class TodoService {
     }
   }
 
-  async addTodoHeader(req: any, id: string) {
+  async editTodo(req: any) {
     try {
-      const user = await this.userModel.findById({ _id: id })
+      const user = await this.userModel.findById({ _id: req.id })
+
+      user.todos.map((item) => {
+        console.log(item)
+      })
+    } catch (err) {
+      throw new InternalServerErrorException({ description: err })
+    }
+  }
+
+  async addTodoHeader(req: any) {
+    try {
+      const user = await this.userModel.findById({ _id: req.id })
 
       user.todos.push(req)
       user.save()
@@ -46,4 +59,19 @@ export class TodoService {
       throw new InternalServerErrorException({ description: err })
     }
   }
+
+  // async deleteTodoHeader(id: string, todoID: string) {
+  //   try {
+  //     const user = await this.userModel.findById({ _id: id })
+
+  //     user.todos.map((item) => {
+  // @ts-ignore
+  //       if (todoID == item._id) {
+  //         console.log(item)
+  //       }
+  //     })
+  //   } catch (err) {
+  //     throw new InternalServerErrorException({ description: err })
+  //   }
+  // }
 }

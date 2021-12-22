@@ -39,7 +39,7 @@ export class AuthService {
     return this.signUser(
       user._id,
       user.email,
-      user.role,
+      'user',
       user.name,
       user.lastName,
       user.image,
@@ -90,7 +90,7 @@ export class AuthService {
           access_token: this.jwtService.sign({
             userID: user._id,
             email: user.email,
-            role: user.email,
+            role: 'user',
             name: user.name,
             lastName: user.lastName,
             image: user.image,
