@@ -113,11 +113,11 @@ export default function MyTodosDetailPages(
       <Divider />
       <List>
         {info.map((text: any) => (
-          <Link key={text._id} href={`/my/todos/${text._id}`} passHref>
+          <a key={text._id} href={`/my/todos/${text._id}`}>
             <ListItem button>
               <ListItemText primary={text.text} />
             </ListItem>
-          </Link>
+          </a>
         ))}
       </List>
       <Button
