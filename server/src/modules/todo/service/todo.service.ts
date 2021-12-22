@@ -4,13 +4,25 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { UserDocument, UserSchema } from 'src/auth/model/auth.model'
 
+/**
+ * Injectable
+ */
 @Injectable()
 export class TodoService {
+  /**
+   * Creates an instance of todo service.
+   * @param userModel
+   */
   constructor(
     @InjectModel(UserSchema.name)
     private readonly userModel: Model<UserDocument>,
   ) {}
 
+  /**
+   * Gets items
+   * @param req
+   * @returns
+   */
   async getItems(req: any) {
     try {
       console.log(req)
@@ -22,6 +34,12 @@ export class TodoService {
     }
   }
 
+  /**
+   * Adds item
+   * @param authReq
+   * @param req
+   * @param category
+   */
   async addItem(authReq: any, req: any, category: string) {
     try {
       const item = await this.userModel.findById({ _id: authReq.userID })
@@ -39,6 +57,12 @@ export class TodoService {
     }
   }
 
+  /**
+   * Edits todo
+   * @param authReq
+   * @param req
+   * @param category
+   */
   async editTodo(authReq: any, req: any, category: string) {
     try {
       const user = await this.userModel.findById({ _id: authReq.userID })
@@ -56,6 +80,11 @@ export class TodoService {
     }
   }
 
+  /**
+   * Adds todo header
+   * @param authReq
+   * @param req
+   */
   async addTodoHeader(authReq: any, req: any) {
     try {
       const user = await this.userModel.findById({ _id: authReq.userID })
