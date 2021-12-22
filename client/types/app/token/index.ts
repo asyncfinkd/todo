@@ -5,7 +5,6 @@ export interface TokenProps {
   _id?: string
   name?: string
   role?: string
-  logged: boolean
   lastName?: string
   image?: string
 }

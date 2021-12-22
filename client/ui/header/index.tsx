@@ -18,7 +18,7 @@ const pages = ['Products', 'Pricing', 'Blog']
 const settings = [{ text: 'პროფილი' }, { text: 'ისტორია' }, { text: 'გასვლა' }]
 
 export const Header = () => {
-  const { access_token } = useAuthProvider()
+  const { auth, access_token } = useAuthProvider()
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -109,7 +109,7 @@ export const Header = () => {
             ))}
           </Box>
 
-          {access_token?.logged ? (
+          {auth.type == 'authenticated' ? (
             <>
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">

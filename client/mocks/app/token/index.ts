@@ -5,7 +5,6 @@ export const __TOKEN__MOCKS__ = () => {
     iat: 0,
     _id: '',
     role: '',
-    logged: false,
     name: '',
     lastName: '',
     image: '',

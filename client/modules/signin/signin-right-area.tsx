@@ -20,12 +20,14 @@ import { SignInRequest } from 'features/signin'
 import Router from 'next/router'
 import decode from 'jwt-decode'
 import { ApplicationContext } from 'context/application'
+import { useAuthProvider } from 'auth'
 
 export default function SignInRightAreaModule() {
   const { register, handleSubmit, formState } = useForm<TSignInProps>({
     resolver: yupResolver(SignInSchema),
   })
   const { setAccess_Token } = useContext(ApplicationContext)
+  const { setAuth } = useAuthProvider()
 
   return (
     <>
@@ -53,9 +55,9 @@ export default function SignInRightAreaModule() {
                 document.cookie = `token=${result.access_token};path=/`
 
                 let decodedData: any = decode(result.access_token)
-                const reData = { ...decodedData, logged: true }
 
-                setAccess_Token(reData)
+                setAuth({ type: 'authenticated' })
+                setAccess_Token(decodedData)
                 Router.push('/')
               })
             })}

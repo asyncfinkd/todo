@@ -13,7 +13,6 @@ export const ApplicationContext = React.createContext<Props>({
     iat: 0,
     _id: '',
     name: '',
-    logged: false,
     role: '',
     lastName: '',
     image: '',

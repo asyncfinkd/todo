@@ -9,8 +9,14 @@ import {
   SignUpModuleFixture,
   TSignUpModuleFixtures,
 } from 'fixtures/modules/signup'
+import { SignUpSchema, TSignUpProps } from 'schema/pages/signup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 
 export default function SignUpForm() {
+  const { register, handleSubmit, formState } = useForm<TSignUpProps>({
+    resolver: yupResolver(SignUpSchema),
+  })
   return (
     <>
       <Box component="form" noValidate sx={{ mt: 3 }}>
@@ -25,6 +31,8 @@ export default function SignUpForm() {
                   label={item.label}
                   autoComplete={item.id}
                   type={item.type}
+                  // @ts-ignore
+                  {...register(item.id)}
                 />
               </Grid>
             )

@@ -3,13 +3,14 @@ import type { NextPage } from 'next'
 import { Header } from 'ui/header'
 
 const Home: NextPage = () => {
-  const { access_token } = useAuthProvider()
+  const { access_token, auth } = useAuthProvider()
 
+  if (auth.type === 'null') return null
   return (
     <>
-      {console.log(access_token)}
+      {console.log(auth)}
       <Header />
-      {access_token?.logged ? <h1>logged</h1> : <h1>not logged</h1>}
+      {auth.type === 'authenticated' ? <h1>logged</h1> : <h1>not logged</h1>}
     </>
   )
 }
