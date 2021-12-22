@@ -22,6 +22,9 @@ export class UserSchema {
 
   @Prop()
   image: string
+
+  @Prop({ type: [{ text: String, completed: Boolean }] })
+  todos: { text: string; completed: boolean }[]
 }
 
 export interface IUser {

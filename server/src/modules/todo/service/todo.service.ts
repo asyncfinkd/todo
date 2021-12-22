@@ -14,7 +14,7 @@ export class TodoService {
     try {
       const user = await this.userModel.findById({ _id: id })
 
-      return { item: user, success: true }
+      return { item: user.todos, success: true }
     } catch (err) {
       return err
     }
