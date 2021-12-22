@@ -9,6 +9,8 @@ import TextField from '@mui/material/TextField'
 export default function MyTodosDetailMap({ item }: any) {
   const [edit, setEdit] = useState(false)
   const [value, setValue] = useState(item.text)
+
+  const { _id } = item
   return (
     <>
       <ListItem sx={{ paddingLeft: `${!edit && '3'}` }} button key={item._id}>
@@ -43,8 +45,7 @@ export default function MyTodosDetailMap({ item }: any) {
               const data = {
                 text: value,
               }
-              const toID = item._id
-              EditRequest({ data, toID }).then((result) => {
+              EditRequest({ data }, _id).then((result) => {
                 console.log(result)
               })
             }
