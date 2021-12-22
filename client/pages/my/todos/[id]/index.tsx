@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Dialog from '@mui/material/Dialog'
 import Typography from '@mui/material/Typography'
+import MyTodosDetailMap from 'modules/my/todos/[id]/myTodosDetailMap'
 
 export interface SimpleDialogProps {
   open: boolean
@@ -41,25 +42,7 @@ function SimpleDialog(props: SimpleDialogProps) {
         {props.info.map((item: any) => {
           return (
             <>
-              <ListItem sx={{ paddingLeft: 3 }} button key={item._id}>
-                <ListItemText primary={item.text} />
-              </ListItem>
-              <Box display="flex" alignItems="center" flexDirection="column">
-                <Button
-                  variant="contained"
-                  sx={{ width: '90%', margin: '10px 0' }}
-                  color="error"
-                >
-                  წაშლა
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{ width: '90%', margin: '10px 0' }}
-                  color="success"
-                >
-                  რედაქტირება
-                </Button>
-              </Box>
+              <MyTodosDetailMap item={item} />
             </>
           )
         })}
