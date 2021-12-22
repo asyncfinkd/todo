@@ -21,9 +21,9 @@ export class TodoService {
     }
   }
 
-  async addItem(req: any, category: string) {
+  async addItem(authReq: any, req: any, category: string) {
     try {
-      const item = await this.userModel.findById({ _id: req.id })
+      const item = await this.userModel.findById({ _id: authReq.userID })
 
       item.todos.map((secondItem) => {
         // @ts-ignore

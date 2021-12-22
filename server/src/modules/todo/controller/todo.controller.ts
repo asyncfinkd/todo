@@ -25,9 +25,15 @@ export class TodoController {
   }
 
   @ApiTags('Todo')
+  @ApiBearerAuth('access-token')
+  @UseGuards(AuthGuard('jwt'))
   @Post('add/personal/todo/:category')
-  addTodo(@Body() req: AddTodoTopicDto, @Param('category') category: string) {
-    return this.todoService.addItem(req, category)
+  addTodo(
+    @Req() authReq,
+    @Body() req: AddTodoTopicDto,
+    @Param('category') category: string,
+  ) {
+    return this.todoService.addItem(authReq.user, req, category)
   }
 
   @ApiTags('Todo')
