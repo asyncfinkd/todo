@@ -33,13 +33,13 @@ export const SignUpModuleFixture = [
   },
 ]
 
-export interface TSignInModuleFixturesO {
+export interface TSignUpModuleFixturesO {
   message: string
 }
 
-export interface TSignInModuleFixtures {
+export interface TSignUpModuleFixtures {
   id: string
   label: string
   type: string
-  required: TSignInModuleFixturesO
+  required: TSignUpModuleFixturesO
 }
