@@ -12,6 +12,11 @@ const refreshTokenRequest = async () => {
 
 const useAuth = () => {
   const { setAccess_Token, access_token } = useContext(ApplicationContext)
+
+  const removeToken = () => {
+    deleteCookie('token', '/', '')
+  }
+
   const RefreshToken = () => {
     if (readCookie('token')) {
       refreshTokenRequest()
@@ -24,7 +29,7 @@ const useAuth = () => {
         })
         .catch((err) => {
           if (err.statusCode === 401) {
-            deleteCookie('token', '/', '')
+            removeToken()
 
             window.location.href = '/'
           }
@@ -34,6 +39,21 @@ const useAuth = () => {
 
   useEffect(() => {
     RefreshToken()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const watchToken = (event: StorageEvent) => {
+    if (event.key === 'token') {
+      removeToken()
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('storage', watchToken)
+
+    return () => {
+      window.removeEventListener('storage', watchToken)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
