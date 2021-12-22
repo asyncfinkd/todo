@@ -20,18 +20,17 @@ export class TodoService {
     }
   }
 
-  async addItem(id: string, category: string) {
+  async addItem(req: any, id: string, category: string) {
     try {
       const item = await this.userModel.findById({ _id: id })
 
       item.todos.map((secondItem) => {
-        // console.log(secondItem)
-        // console.log(secondItem._id)
         // @ts-ignore
-        if (category === secondItem._id) {
-          console.log(secondItem)
+        if (category == secondItem._id) {
+          secondItem.items.push({ ...req, completed: false })
         }
       })
+      item.save()
     } catch (err) {
       return err
     }
