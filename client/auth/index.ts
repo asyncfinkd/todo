@@ -17,7 +17,7 @@ const useAuth = () => {
     deleteCookie('token', '/', '')
   }
 
-  const RefreshToken = () => {
+  const refreshToken = () => {
     if (readCookie('token')) {
       refreshTokenRequest()
         .then((result: any) => {
@@ -38,7 +38,7 @@ const useAuth = () => {
   }
 
   useEffect(() => {
-    RefreshToken()
+    refreshToken()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
