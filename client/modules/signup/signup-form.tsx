@@ -11,7 +11,7 @@ import {
 } from 'fixtures/modules/signup'
 import { SignUpSchema, TSignUpProps } from 'schema/pages/signup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
+import { useForm, get } from 'react-hook-form'
 
 export default function SignUpForm() {
   const { register, handleSubmit, formState } = useForm<TSignUpProps>({
@@ -19,7 +19,14 @@ export default function SignUpForm() {
   })
   return (
     <>
-      <Box component="form" noValidate sx={{ mt: 3 }}>
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit((data: TSignUpProps) => {
+          console.log(data)
+        })}
+        sx={{ mt: 3 }}
+      >
         <Grid container spacing={2}>
           {SignUpModuleFixture.map((item: TSignUpModuleFixtures) => {
             return (
@@ -31,6 +38,10 @@ export default function SignUpForm() {
                   label={item.label}
                   autoComplete={item.id}
                   type={item.type}
+                  error={get(formState.errors, item.id)}
+                  helperText={
+                    get(formState.errors, item.id) && item.required.message
+                  }
                   // @ts-ignore
                   {...register(item.id)}
                 />
