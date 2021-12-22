@@ -19,4 +19,32 @@ export class TodoService {
       return err
     }
   }
+
+  async addItem(id: string, category: string) {
+    try {
+      const item = await this.userModel.findById({ _id: id })
+
+      item.todos.map((secondItem) => {
+        // console.log(secondItem)
+        // console.log(secondItem._id)
+        // @ts-ignore
+        if (category === secondItem._id) {
+          console.log(secondItem)
+        }
+      })
+    } catch (err) {
+      return err
+    }
+  }
+
+  async addTodoHeader(req: any, id: string) {
+    try {
+      const user = await this.userModel.findById({ _id: id })
+
+      user.todos.push(req)
+      user.save()
+    } catch (err) {
+      return err
+    }
+  }
 }
