@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import React from 'react'
+import React, { useContext } from 'react'
 import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
@@ -13,11 +13,18 @@ import { SignUpSchema, TSignUpProps } from 'schema/pages/signup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, get } from 'react-hook-form'
 import { SignUpRequest } from 'features/signup'
+import decode from 'jwt-decode'
+import { useAuthProvider } from 'auth'
+import { ApplicationContext } from 'context/application'
+import Router from 'next/router'
 
 export default function SignUpForm() {
   const { register, handleSubmit, formState } = useForm<TSignUpProps>({
     resolver: yupResolver(SignUpSchema),
   })
+
+  const { setAuth } = useAuthProvider()
+  const { setAccess_Token } = useContext(ApplicationContext)
   return (
     <>
       <Box
@@ -25,7 +32,13 @@ export default function SignUpForm() {
         noValidate
         onSubmit={handleSubmit((data: TSignUpProps) => {
           SignUpRequest({ data }).then((result: any) => {
-            console.log(result)
+            document.cookie = `token=${result.access_token};path=/`
+
+            let decodedData: any = decode(result.access_token)
+
+            setAuth({ type: 'authenticated' })
+            setAccess_Token(decodedData)
+            Router.push('/')
           })
         })}
         sx={{ mt: 3 }}
