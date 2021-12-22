@@ -97,7 +97,13 @@ export class TodoService {
         }
       })
 
-      user.save()
+      return user.save().then(() => {
+        return {
+          success: true,
+          item: user.todos,
+          message: 'წარმატებით შეიცვალა ტოპიკის სახელი',
+        }
+      })
     } catch (err) {
       throw new InternalServerErrorException({ description: err })
     }

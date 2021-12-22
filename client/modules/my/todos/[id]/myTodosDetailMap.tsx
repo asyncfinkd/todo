@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import { EditRequest } from 'features/my/todos/[id]'
 import TextField from '@mui/material/TextField'
 
-export default function MyTodosDetailMap({ item }: any) {
+export default function MyTodosDetailMap({ item, arr, setArr }: any) {
   const [edit, setEdit] = useState(false)
   const [value, setValue] = useState(item.text)
 
@@ -45,8 +45,8 @@ export default function MyTodosDetailMap({ item }: any) {
               const data = {
                 text: value,
               }
-              EditRequest({ data }, _id).then((result) => {
-                console.log(result)
+              EditRequest({ data }, _id).then((result: any) => {
+                setArr(result.item)
               })
             }
           }}

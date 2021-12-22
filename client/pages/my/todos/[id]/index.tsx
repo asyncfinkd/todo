@@ -21,6 +21,7 @@ export interface SimpleDialogProps {
   open: boolean
   onClose: (value: string | any) => void
   info: any
+  setInfo: any
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
@@ -36,13 +37,16 @@ function SimpleDialog(props: SimpleDialogProps) {
 
   return (
     <Dialog onClose={handleClose} open={open} sx={{ padding: 25 }}>
-      {console.log(props.info)}
       <DialogTitle>აირჩიეთ სასურველი ოპერაცია</DialogTitle>
       <List sx={{ pt: 0 }}>
         {props.info.map((item: any) => {
           return (
             <>
-              <MyTodosDetailMap item={item} />
+              <MyTodosDetailMap
+                item={item}
+                setArr={props.setInfo}
+                arr={props.info}
+              />
             </>
           )
         })}
@@ -237,6 +241,7 @@ export default function MyTodosDetailPages(
           open={open}
           onClose={handleClose}
           info={info}
+          setInfo={setInfo}
         />
       </div>
     </>
