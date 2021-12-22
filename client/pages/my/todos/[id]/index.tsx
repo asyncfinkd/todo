@@ -5,15 +5,74 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
 import MenuIcon from '@mui/icons-material/Menu'
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 import { GetServerSidePropsContext } from 'next'
 import Button from '@mui/material/Button'
+import Avatar from '@mui/material/Avatar'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import ListItemText from '@mui/material/ListItemText'
+import DialogTitle from '@mui/material/DialogTitle'
+import Dialog from '@mui/material/Dialog'
+import PersonIcon from '@mui/icons-material/Person'
+import AddIcon from '@mui/icons-material/Add'
+import Typography from '@mui/material/Typography'
+
+export interface SimpleDialogProps {
+  open: boolean
+  // selectedValue: string
+  onClose: (value: string | any) => void
+  info: any
+}
+
+function SimpleDialog(props: SimpleDialogProps) {
+  const { onClose, open } = props
+
+  const handleClose = () => {
+    onClose(!open)
+  }
+
+  const handleListItemClick = (value: string) => {
+    onClose(value)
+  }
+
+  return (
+    <Dialog onClose={handleClose} open={open} sx={{ padding: 25 }}>
+      {console.log(props.info)}
+      <DialogTitle>აირჩიეთ სასურველი ოპერაცია</DialogTitle>
+      <List sx={{ pt: 0 }}>
+        {props.info.map((item: any) => {
+          return (
+            <>
+              <ListItem sx={{ paddingLeft: 3 }} button key={item._id}>
+                <ListItemText primary={item.text} />
+              </ListItem>
+              <Box display="flex" alignItems="center" flexDirection="column">
+                <Button
+                  variant="contained"
+                  sx={{ width: '90%', margin: '10px 0' }}
+                  color="error"
+                >
+                  წაშლა
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{ width: '90%', margin: '10px 0' }}
+                  color="success"
+                >
+                  რედაქტირება
+                </Button>
+              </Box>
+            </>
+          )
+        })}
+      </List>
+    </Dialog>
+  )
+}
 
 const drawerWidth = 240
 
@@ -39,6 +98,15 @@ export default function MyTodosDetailPages(
     setMobileOpen(!mobileOpen)
   }
 
+  const [open, setOpen] = React.useState(false)
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = (value: string) => {
+    setOpen(false)
+  }
   const drawer = (
     <div>
       <Toolbar />
@@ -64,6 +132,7 @@ export default function MyTodosDetailPages(
           height: 44,
           marginTop: 1,
         }}
+        onClick={() => setOpen(!open)}
       >
         მართვა
       </Button>
@@ -178,6 +247,21 @@ export default function MyTodosDetailPages(
           </Typography>
         </Box>
       </Box>
+      <div>
+        <Typography variant="subtitle1" component="div">
+          Selected:
+        </Typography>
+        <br />
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Open simple dialog
+        </Button>
+        <SimpleDialog
+          // selectedValue={selectedValue}
+          open={open}
+          onClose={handleClose}
+          info={info}
+        />
+      </div>
     </>
   )
 }
