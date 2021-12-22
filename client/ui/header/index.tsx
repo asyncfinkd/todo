@@ -15,7 +15,7 @@ import { useAuthProvider } from 'auth'
 import Link from 'next/link'
 
 const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+const settings = [{ text: 'პროფილი' }, { text: 'ისტორია' }, { text: 'გასვლა' }]
 
 export const Header = () => {
   const { access_token } = useAuthProvider()
@@ -136,9 +136,9 @@ export const Header = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+                  {settings.map((setting, i) => (
+                    <MenuItem key={i} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{setting.text}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>
