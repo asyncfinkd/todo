@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common'
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
@@ -14,16 +18,24 @@ export class RegisterService {
 
   async registerUser(user: RegisterDto) {
     try {
-      const newUser = new this.userModel(user)
-      await newUser.save()
+      return await this.userModel
+        .findOne({ email: user.email })
+        .then((result) => {
+          if (!result) {
+            const newUser = new this.userModel(user)
+            newUser.save()
 
-      return this.generateToken(
-        user.email,
-        user.email,
-        user.role,
-        user.name,
-        user.lastName,
-      )
+            return this.generateToken(
+              user.email,
+              user.email,
+              user.role,
+              user.name,
+              user.lastName,
+            )
+          } else {
+            throw new ConflictException('მსგავსი ელ.ფოსტა უკვე რეგისტრირებულია')
+          }
+        })
     } catch (err) {
       throw new InternalServerErrorException({ description: err })
     }
@@ -52,6 +64,7 @@ export class RegisterService {
         name,
         lastName,
       }),
+      message: 'თქვენ წარმატებით გაიარეთ რეგისტრაცია',
     }
   }
 }

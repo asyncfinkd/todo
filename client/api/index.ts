@@ -8,7 +8,8 @@ export const request = async <T>(
   contentType: 'FORM' | 'JSON',
   body?: Record<string | number, any> | BodyInit | null,
   serverSideToken?: boolean,
-  notification?: boolean
+  notification?: boolean,
+  description?: boolean
 ) => {
   const token: any = serverSideToken && readCookie('token')
 
@@ -30,8 +31,13 @@ export const request = async <T>(
   } else {
     const error = (await response.json()) as T
     if (notification) {
-      // @ts-ignore
-      toast.error(error.message)
+      if (description) {
+        // @ts-ignore
+        toast.error(error.description.message)
+      } else {
+        // @ts-ignore
+        toast.error(error.message)
+      }
     }
     return Promise.reject({
       ...error,

@@ -12,6 +12,7 @@ import {
 import { SignUpSchema, TSignUpProps } from 'schema/pages/signup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, get } from 'react-hook-form'
+import { SignUpRequest } from 'features/signup'
 
 export default function SignUpForm() {
   const { register, handleSubmit, formState } = useForm<TSignUpProps>({
@@ -23,7 +24,9 @@ export default function SignUpForm() {
         component="form"
         noValidate
         onSubmit={handleSubmit((data: TSignUpProps) => {
-          console.log(data)
+          SignUpRequest({ data }).then((result: any) => {
+            console.log(result)
+          })
         })}
         sx={{ mt: 3 }}
       >
