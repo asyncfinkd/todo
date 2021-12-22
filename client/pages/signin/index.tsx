@@ -1,12 +1,15 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SignInRightAreaModule from '../../modules/signin/signin-right-area';
+import * as React from 'react'
+import CssBaseline from '@mui/material/CssBaseline'
+import Grid from '@mui/material/Grid'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import SignInRightAreaModule from '../../modules/signin/signin-right-area'
+import { useAuthProvider } from 'auth'
 
-const theme = createTheme();
+const theme = createTheme()
 
 export default function SignInSide() {
+  const { access_token } = useAuthProvider()
+  console.log(access_token)
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -30,5 +33,5 @@ export default function SignInSide() {
         <SignInRightAreaModule />
       </Grid>
     </ThemeProvider>
-  );
+  )
 }

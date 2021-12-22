@@ -1,23 +1,43 @@
 import { deleteCookie } from 'lib/delete-cookie'
 import { readCookie } from 'lib/read-cookie'
 import { request } from 'api'
+import { useContext, useEffect, useState } from 'react'
+import { ApplicationContext } from 'context/application'
+import decode from 'jwt-decode'
+import constate from 'constate'
 
 const refreshTokenRequest = async () => {
   return request(`/api/auth/refresh`, 'POST', 'JSON', null, true)
 }
 
-export const refreshToken = () => {
-  if (readCookie('token')) {
-    refreshTokenRequest()
-      .then((result: any) => {
-        document.cookie = `token=${result.access_token};path=/`
-      })
-      .catch((err) => {
-        if (err.statusCode === 401) {
-          deleteCookie('token', '/', '')
+const useAuth = () => {
+  const { setAccess_Token, access_token } = useContext(ApplicationContext)
+  const RefreshToken = () => {
+    if (readCookie('token')) {
+      refreshTokenRequest()
+        .then((result: any) => {
+          document.cookie = `token=${result.access_token};path=/`
 
-          window.location.href = '/'
-        }
-      })
+          let decodedData = decode(result.access_token)
+
+          setAccess_Token(decodedData)
+        })
+        .catch((err) => {
+          if (err.statusCode === 401) {
+            deleteCookie('token', '/', '')
+
+            window.location.href = '/'
+          }
+        })
+    }
   }
+
+  useEffect(() => {
+    RefreshToken()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return { access_token } as const
 }
+
+export const [AuthProvider, useAuthProvider] = constate(useAuth)
