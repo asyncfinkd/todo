@@ -163,7 +163,7 @@ export const Header = () => {
                 </Link>
                 <Link href="/signup" passHref>
                   <Button variant="contained" sx={{ fontFamily: 'MarkGEO' }}>
-                    რეგისტრაცია
+                    Sign Up
                   </Button>
                 </Link>
               </Box>
