@@ -13,20 +13,18 @@ import { AddTodoTopicDto } from '../dto/todo.dto'
 import { TodoService } from '../service/todo.service'
 
 @Controller()
+@ApiBearerAuth('access-token')
+@UseGuards(AuthGuard('jwt'))
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @ApiTags('Todo')
-  @ApiBearerAuth('access-token')
-  @UseGuards(AuthGuard('jwt'))
   @Get('get/personal/todo')
   getTodo(@Req() req) {
     return this.todoService.getItems(req.user)
   }
 
   @ApiTags('Todo')
-  @ApiBearerAuth('access-token')
-  @UseGuards(AuthGuard('jwt'))
   @Post('add/personal/todo/:category')
   addTodo(
     @Req() authReq,
@@ -38,13 +36,13 @@ export class TodoController {
 
   @ApiTags('Todo')
   @Post('edit/personal/todo')
-  editTodo(@Body() req) {}
+  editTodo(@Req() authReq, @Body() req) {}
 
   @ApiTags('Todo')
   @ApiBody({ type: AddTodoTopicDto })
   @Post('add/personal/todo')
-  addTodoHeader(@Body() req: AddTodoTopicDto) {
-    return this.todoService.addTodoHeader(req)
+  addTodoHeader(@Req() authReq, @Body() req: AddTodoTopicDto) {
+    return this.todoService.addTodoHeader(authReq.user, req)
   }
 
   // @ApiTags('Todo')

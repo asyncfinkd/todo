@@ -49,9 +49,9 @@ export class TodoService {
     }
   }
 
-  async addTodoHeader(req: any) {
+  async addTodoHeader(authReq: any, req: any) {
     try {
-      const user = await this.userModel.findById({ _id: req.id })
+      const user = await this.userModel.findById({ _id: authReq.userID })
 
       user.todos.push(req)
       user.save()
