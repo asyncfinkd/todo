@@ -1,4 +1,5 @@
 import { useAuthProvider } from 'auth'
+import AuthenticatedIndex from 'modules/index/authenticatedIndex'
 import type { NextPage } from 'next'
 import { Header } from 'ui/header'
 
@@ -8,9 +9,14 @@ const Home: NextPage = () => {
   if (auth.type === 'null') return null
   return (
     <>
-      {console.log(auth)}
       <Header />
-      {auth.type === 'authenticated' ? <h1>logged</h1> : <h1>not logged</h1>}
+      {auth.type === 'authenticated' ? (
+        <>
+          <AuthenticatedIndex />
+        </>
+      ) : (
+        <h1>not logged</h1>
+      )}
     </>
   )
 }
