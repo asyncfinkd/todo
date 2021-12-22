@@ -32,19 +32,25 @@ export class TodoService {
           secondItem.items.push({ ...req, completed: false })
         }
       })
+
       item.save()
     } catch (err) {
       throw new InternalServerErrorException({ description: err })
     }
   }
 
-  async editTodo(authReq: any, req: any) {
+  async editTodo(authReq: any, req: any, category: string) {
     try {
       const user = await this.userModel.findById({ _id: authReq.userID })
 
       user.todos.map((item) => {
-        console.log(item)
+        // @ts-ignore
+        if (category == item._id) {
+          item.text = req.text
+        }
       })
+
+      user.save()
     } catch (err) {
       throw new InternalServerErrorException({ description: err })
     }

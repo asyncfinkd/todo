@@ -35,9 +35,13 @@ export class TodoController {
   }
 
   @ApiTags('Todo')
-  @Post('edit/personal/todo')
-  editTodo(@Req() authReq, @Body() req) {
-    return this.todoService.editTodo(authReq, req)
+  @Post('edit/personal/todo/:category')
+  editTodo(
+    @Req() authReq,
+    @Body() req: AddTodoTopicDto,
+    @Param('category') category: string,
+  ) {
+    return this.todoService.editTodo(authReq.user, req, category)
   }
 
   @ApiTags('Todo')
