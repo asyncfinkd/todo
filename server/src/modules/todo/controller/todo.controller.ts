@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiTags } from '@nestjs/swagger'
+import { AddTodoTopicDto } from '../dto/todo.dto'
 import { TodoService } from '../service/todo.service'
 
 @Controller()
@@ -19,8 +20,9 @@ export class TodoController {
   }
 
   @ApiTags('Todo')
+  @ApiBody({ type: AddTodoTopicDto })
   @Post('add/personal/:id/todo')
-  addTodoHeader(@Body() req, @Param('id') id: string) {
+  addTodoHeader(@Body() req: AddTodoTopicDto, @Param('id') id: string) {
     return this.todoService.addTodoHeader(req, id)
   }
 }
