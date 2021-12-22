@@ -59,7 +59,7 @@ export default function SignUpForm() {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Sign Up
+          რეგისტრაცია
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>
