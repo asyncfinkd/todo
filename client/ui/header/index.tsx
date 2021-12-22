@@ -12,6 +12,7 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import { useAuthProvider } from 'auth'
+import Link from 'next/link'
 
 const pages = ['Products', 'Pricing', 'Blog']
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
@@ -40,7 +41,7 @@ export const Header = () => {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ bgcolor: '#4285F4' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -145,7 +146,23 @@ export const Header = () => {
             </>
           ) : (
             <>
-              <p>qwe</p>
+              <Box sx={{ display: 'flex', gap: '15px' }}>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    fontFamily: 'MarkGEO',
+                    bgcolor: '#f1f2f5',
+                    '&:hover': {
+                      backgroundColor: '#f1f2f5',
+                    },
+                  }}
+                >
+                  შესვლა
+                </Button>
+                <Button variant="contained" sx={{ fontFamily: 'MarkGEO' }}>
+                  რეგისტრაცია
+                </Button>
+              </Box>
             </>
           )}
         </Toolbar>
