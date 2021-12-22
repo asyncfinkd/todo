@@ -13,6 +13,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 import { GetServerSidePropsContext } from 'next'
+import Button from '@mui/material/Button'
 
 const drawerWidth = 240
 
@@ -51,6 +52,21 @@ export default function MyTodosDetailPages(
           </Link>
         ))}
       </List>
+      <Button
+        variant="contained"
+        sx={{
+          width: '95%',
+          margin: 'auto',
+          textAlign: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: 44,
+          marginTop: 1,
+        }}
+      >
+        მართვა
+      </Button>
     </div>
   )
 
@@ -59,7 +75,6 @@ export default function MyTodosDetailPages(
 
   return (
     <>
-      {console.log(onceItem)}
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar
