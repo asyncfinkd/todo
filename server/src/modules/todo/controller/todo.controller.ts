@@ -16,6 +16,7 @@ import { TodoService } from '../service/todo.service'
  * Controller
  */
 @Controller()
+@ApiTags('Todo')
 @ApiBearerAuth('access-token')
 @UseGuards(AuthGuard('jwt'))
 export class TodoController {
@@ -30,10 +31,14 @@ export class TodoController {
    * @param req
    * @returns
    */
-  @ApiTags('Todo')
   @Get('get/personal/todo')
   getTodo(@Req() req) {
     return this.todoService.getItems(req.user)
+  }
+
+  @Get('get/personal/todo/:id')
+  getOnceItem(@Req() req, @Param('id') id: string) {
+    return this.todoService.getOnceItem(req.user, id)
   }
 
   /**
@@ -43,7 +48,6 @@ export class TodoController {
    * @param category
    * @returns
    */
-  @ApiTags('Todo')
   @Post('add/personal/todo/:category')
   addTodo(
     @Req() authReq,
@@ -60,7 +64,6 @@ export class TodoController {
    * @param category
    * @returns
    */
-  @ApiTags('Todo')
   @Post('edit/personal/todo/:category')
   editTodo(
     @Req() authReq,
@@ -76,14 +79,12 @@ export class TodoController {
    * @param req
    * @returns
    */
-  @ApiTags('Todo')
   @ApiBody({ type: AddTodoTopicDto })
   @Post('add/personal/todo')
   addTodoHeader(@Req() authReq, @Body() req: AddTodoTopicDto) {
     return this.todoService.addTodoHeader(authReq.user, req)
   }
 
-  // @ApiTags('Todo')
   // @ApiBody({})
   // @Post('delete/personal/:id/todo/:todoID')
   // deleteTodoHeader(@Param('id') id: string, @Param('todoID') todoID: string) {

@@ -35,6 +35,29 @@ export class TodoService {
   }
 
   /**
+   * Gets once item
+   * @param req
+   * @param id
+   */
+  async getOnceItem(req: any, id: string) {
+    try {
+      const user = await this.userModel.findById({ _id: req.userID })
+
+      const data = []
+      user.todos.map((item) => {
+        // @ts-ignore
+        if (id == item._id) {
+          data.push(item)
+        }
+      })
+
+      return { item: data[0] }
+    } catch (err) {
+      throw new InternalServerErrorException({ description: err })
+    }
+  }
+
+  /**
    * Adds item
    * @param authReq
    * @param req
