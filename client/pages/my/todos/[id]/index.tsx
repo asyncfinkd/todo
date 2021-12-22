@@ -18,7 +18,6 @@ import Typography from '@mui/material/Typography'
 
 export interface SimpleDialogProps {
   open: boolean
-  // selectedValue: string
   onClose: (value: string | any) => void
   info: any
 }
