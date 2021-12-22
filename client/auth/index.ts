@@ -23,9 +23,10 @@ const useAuth = () => {
         .then((result: any) => {
           document.cookie = `token=${result.access_token};path=/`
 
-          let decodedData = decode(result.access_token)
+          let decodedData: any = decode(result.access_token)
+          const reData = { ...decodedData, logged: true }
 
-          setAccess_Token(decodedData)
+          setAccess_Token(reData)
         })
         .catch((err) => {
           if (err.statusCode === 401) {
