@@ -158,12 +158,12 @@ export const Header = () => {
                       },
                     }}
                   >
-                    Sign In
+                    შესვლა
                   </Button>
                 </Link>
                 <Link href="/signup" passHref>
                   <Button variant="contained" sx={{ fontFamily: 'MarkGEO' }}>
-                    Sign Up
+                    რეგისტრაცია
                   </Button>
                 </Link>
               </Box>
