@@ -51,7 +51,7 @@ async function bootstrap() {
   createGlobalPrefix(app, '/api')
 
   const config = new DocumentBuilder()
-    .setTitle('Smart Pharm Server Example')
+    .setTitle('ToDo Application Swagger')
     .setDescription('Documentation for Developers')
     .setVersion('1.0')
     .addBearerAuth(
