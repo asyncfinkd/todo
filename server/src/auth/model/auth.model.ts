@@ -1,7 +1,20 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
+import * as mongoose from 'mongoose'
+import { TodoSchema } from 'src/modules/todo/model/todo.model'
 
 export type UserDocument = UserSchema & Document
+
+@Schema({ _id: false })
+export class SchemaForMapping {
+  @Prop()
+  text: string
+
+  @Prop({ type: [mongoose.Types.ObjectId], ref: TodoSchema.name })
+  items: TodoSchema[]
+}
+
+const SchemaForMap = SchemaFactory.createForClass(SchemaForMapping)
 
 @Schema({ collection: 'users' })
 export class UserSchema {
@@ -23,10 +36,8 @@ export class UserSchema {
   @Prop()
   image: string
 
-  @Prop({
-    type: [{ text: String, items: [{ text: String, completed: Boolean }] }],
-  })
-  todos: { text: string; items: [{ text: string; completed: boolean }] }[]
+  @Prop({ type: [SchemaForMap] })
+  todos: SchemaForMapping[]
 }
 
 export interface IUser {

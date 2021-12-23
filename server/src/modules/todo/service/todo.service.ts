@@ -26,10 +26,11 @@ export class TodoService {
   async getItems(req: any) {
     try {
       console.log(req)
-      const user = await this.userModel.findById({ _id: req.userID })
+      const user = await this.userModel.find().populate('todos.items')
 
-      return { item: user.todos, success: true }
+      return { item: user, success: true }
     } catch (err) {
+      console.log(err)
       throw new InternalServerErrorException({ description: err })
     }
   }
@@ -70,7 +71,7 @@ export class TodoService {
       item.todos.map((secondItem) => {
         // @ts-ignore
         if (category == secondItem._id) {
-          secondItem.items.push({ ...req, completed: false })
+          // secondItem.items.push({ ...req, completed: false })
         }
       })
 
