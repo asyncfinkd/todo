@@ -3,6 +3,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { UserDocument, UserSchema } from 'src/auth/model/auth.model'
+import { TodoDocument, TodoSchema } from '../model/todo.model'
 
 /**
  * Injectable
@@ -15,7 +16,8 @@ export class TodoService {
    */
   constructor(
     @InjectModel(UserSchema.name)
-    private readonly userModel: Model<UserDocument>,
+    private userModel: Model<UserDocument>,
+    @InjectModel(TodoSchema.name) private todoModel: Model<TodoDocument>,
   ) {}
 
   /**
@@ -25,12 +27,12 @@ export class TodoService {
    */
   async getItems(req: any) {
     try {
-      console.log(req)
-      const user = await this.userModel.find().populate('todos.items')
+      const user = await this.userModel
+        .findOne({ _id: req.userID })
+        .populate('todos.items')
 
       return { item: user, success: true }
     } catch (err) {
-      console.log(err)
       throw new InternalServerErrorException({ description: err })
     }
   }
@@ -42,7 +44,7 @@ export class TodoService {
    */
   async getOnceItem(req: any, id: string) {
     try {
-      const user = await this.userModel.findById({ _id: req.userID })
+      const user = await this.userModel.findOne({ _id: req.userID })
 
       const data = []
       user.todos.map((item) => {

@@ -5,7 +5,7 @@ import { TodoSchema } from 'src/modules/todo/model/todo.model'
 
 export type UserDocument = UserSchema & Document
 
-@Schema({ _id: false })
+@Schema()
 export class SchemaForMapping {
   @Prop()
   text: string
