@@ -72,14 +72,25 @@ export class TodoService {
     try {
       const item = await this.userModel.findById({ _id: authReq.userID })
 
-      item.todos.map((secondItem) => {
-        // @ts-ignore
-        if (category == secondItem._id) {
-          // secondItem.items.push({ ...req, completed: false })
+      const newTodo = new this.todoModel({ ...req, completed: false })
+
+      newTodo.save((err, doc) => {
+        if (!err) {
+          item.todos.map((item) => {
+            // @ts-ignore
+            if (category == item._id) {
+              item.items.push(doc._id)
+            }
+          })
+
+          item.save()
         }
       })
 
-      item.save()
+      return {
+        success: true,
+        message: 'გილოცავთ წარმატებით დაემატა ახალი აითემი',
+      }
     } catch (err) {
       throw new InternalServerErrorException({ description: err })
     }
