@@ -180,23 +180,20 @@ export class TodoService {
       const user = await this.userModel.findById({ _id: authReq.userID })
 
       user.todos.push(req)
-      /* 
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
-      */
-      return user.save((err, doc) => {
-        return { success: true, message: 'Congratulation', doc }
-      })
+      return user
+        .save()
+        .then((doc: any) => {
+          return {
+            success: true,
+            message: 'გილოცავთ წარმატებით დაემატა ტოპიკი',
+            item: doc.todos,
+          }
+        })
+        .catch(() => {
+          throw new InternalServerErrorException({
+            message: 'დაფიქსირდა შეცდომა',
+          })
+        })
     } catch (err) {
       throw new InternalServerErrorException({ description: err })
     }
