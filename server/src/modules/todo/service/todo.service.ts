@@ -92,7 +92,6 @@ export class TodoService {
    * @param category
    */
 
-  //  61c5cfde1662d50987302295
   async editTodo(authReq: any, req: any, category: string) {
     try {
       const user = await this.userModel.findById({ _id: authReq.userID })
@@ -162,7 +161,11 @@ export class TodoService {
             }
           })
           return result.save().then(() => {
-            return { success: true, message: 'წარმატებით წაიშალა აითემი' }
+            return this.todoModel
+              .findByIdAndRemove({ _id: itemID._id })
+              .then(() => {
+                return { success: true, message: 'წარმატებით წაიშალა აითემი' }
+              })
           })
         })
     } catch (err) {
