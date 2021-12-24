@@ -198,19 +198,4 @@ export class TodoService {
       throw new InternalServerErrorException({ description: err })
     }
   }
-
-  // async deleteTodoHeader(id: string, todoID: string) {
-  //   try {
-  //     const user = await this.userModel.findById({ _id: id })
-
-  //     user.todos.map((item) => {
-  // @ts-ignore
-  //       if (todoID == item._id) {
-  //         console.log(item)
-  //       }
-  //     })
-  //   } catch (err) {
-  //     throw new InternalServerErrorException({ description: err })
-  //   }
-  // }
 }
