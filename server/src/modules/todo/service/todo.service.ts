@@ -116,22 +116,26 @@ export class TodoService {
     }
   }
 
-  async deleteTodoTopic(authReq: any) {
-    const deleteUser = await this.userModel.findByIdAndUpdate(
-      { _id: authReq.userID },
-      { $pull: { todos: { _id: '61c5986dd411b63481c24eea' } } },
-      { new: true },
-    )
-    if (deleteUser) {
-      const saveUser = await deleteUser.save()
-      return {
-        success: true,
-        doc: saveUser,
+  async deleteTodoTopic(authReq: any, _id: any) {
+    try {
+      const deleteUser = await this.userModel.findByIdAndUpdate(
+        { _id: authReq.userID },
+        { $pull: { todos: { _id: _id._id } } },
+        { new: true },
+      )
+      if (deleteUser) {
+        const saveUser = await deleteUser.save()
+        return {
+          success: true,
+          doc: saveUser,
+        }
+      } else {
+        throw new InternalServerErrorException({
+          description: 'მომხმარებელი ვერ მოიძებნა',
+        })
       }
-    } else {
-      throw new InternalServerErrorException({
-        description: 'მომხმარებელი ვერ მოიძებნა',
-      })
+    } catch (err) {
+      throw new InternalServerErrorException({ description: err })
     }
   }
 

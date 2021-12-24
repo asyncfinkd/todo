@@ -109,11 +109,10 @@ export class TodoController {
     return result
   }
 
-  @Post('delete/personal/todo/topic')
-  async deleteTodoTopic(
-    @Req() authReq,
-    // @Param('category') category: string,
-  ) {
-    return this.todoService.deleteTodoTopic(authReq.user)
+  @Post('delete/personal/todo/topic/category')
+  async deleteTodoTopic(@Req() authReq: any, @Body() req) {
+    const result = await this.todoService.deleteTodoTopic(authReq.user, req)
+
+    return result
   }
 }
