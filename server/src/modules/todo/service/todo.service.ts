@@ -44,7 +44,9 @@ export class TodoService {
    */
   async getOnceItem(req: any, id: string) {
     try {
-      const user = await this.userModel.findOne({ _id: req.userID })
+      const user = await this.userModel
+        .findOne({ _id: req.userID })
+        .populate('todos.items')
 
       const data = []
       user.todos.map((item) => {
