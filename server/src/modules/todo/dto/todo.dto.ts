@@ -10,3 +10,10 @@ export class AddTodoTopicDto {
   @IsString()
   text: string
 }
+
+export class DeleteTodoItemDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  _id: string
+}

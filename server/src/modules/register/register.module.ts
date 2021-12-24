@@ -14,7 +14,7 @@ import { RegisterService } from './service/register.service'
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '15m' },
+        signOptions: { expiresIn: '12h' },
       }),
     }),
   ],

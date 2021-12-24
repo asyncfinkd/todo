@@ -91,6 +91,8 @@ export class TodoService {
    * @param req
    * @param category
    */
+
+  //  61c5cfde1662d50987302295
   async editTodo(authReq: any, req: any, category: string) {
     try {
       const user = await this.userModel.findById({ _id: authReq.userID })
@@ -114,6 +116,56 @@ export class TodoService {
     }
   }
 
+  async deleteTodoTopic(authReq: any) {
+    const deleteUser = await this.userModel.findByIdAndUpdate(
+      { _id: authReq.userID },
+      { $pull: { todos: { _id: '61c5986dd411b63481c24eea' } } },
+      { new: true },
+    )
+    if (deleteUser) {
+      const saveUser = await deleteUser.save()
+      return {
+        success: true,
+        doc: saveUser,
+      }
+    } else {
+      throw new InternalServerErrorException({
+        description: 'მომხმარებელი ვერ მოიძებნა',
+      })
+    }
+  }
+
+  /**
+   * Deletes todo item
+   * @param authReq
+   * @param category
+   * @param itemID
+   * @returns
+   */
+  async deleteTodoItem(authReq: any, category: string, itemID: any) {
+    try {
+      return this.userModel
+        .findById({
+          _id: authReq.userID,
+        })
+        .then((result) => {
+          result.todos.map((element) => {
+            // @ts-ignore
+            if (element._id == category) {
+              element.items = element.items.filter(
+                (item) => item.toString() != itemID._id,
+              )
+            }
+          })
+          return result.save().then(() => {
+            return { success: true, message: 'წარმატებით წაიშალა აითემი' }
+          })
+        })
+    } catch (err) {
+      throw new InternalServerErrorException({ description: err })
+    }
+  }
+
   /**
    * Adds todo header
    * @param authReq
@@ -124,7 +176,23 @@ export class TodoService {
       const user = await this.userModel.findById({ _id: authReq.userID })
 
       user.todos.push(req)
-      user.save()
+      /* 
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      ! IMPORTANT HERE DON'T WORK USER.SAVE() FUNCTION TO RETURN
+      */
+      return user.save((err, doc) => {
+        return { success: true, message: 'Congratulation', doc }
+      })
     } catch (err) {
       throw new InternalServerErrorException({ description: err })
     }

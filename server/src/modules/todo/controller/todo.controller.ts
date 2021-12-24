@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger'
-import { AddTodoTopicDto } from '../dto/todo.dto'
+import { AddTodoTopicDto, DeleteTodoItemDto } from '../dto/todo.dto'
 import { TodoService } from '../service/todo.service'
 
 /**
@@ -65,12 +65,14 @@ export class TodoController {
    * @returns
    */
   @Post('edit/personal/todo/:category')
-  editTodo(
+  async editTodo(
     @Req() authReq,
     @Body() req: AddTodoTopicDto,
     @Param('category') category: string,
   ) {
-    return this.todoService.editTodo(authReq.user, req, category)
+    const result = await this.todoService.editTodo(authReq.user, req, category)
+
+    return result
   }
 
   /**
@@ -85,9 +87,33 @@ export class TodoController {
     return this.todoService.addTodoHeader(authReq.user, req)
   }
 
-  // @ApiBody({})
-  // @Post('delete/personal/:id/todo/:todoID')
-  // deleteTodoHeader(@Param('id') id: string, @Param('todoID') todoID: string) {
-  //   return this.todoService.deleteTodoHeader(id, todoID)
-  // }
+  /**
+   * Posts todo controller
+   * @param authReq
+   * @param req
+   * @param category
+   * @returns
+   */
+  @Post('delete/personal/todo/:category')
+  async deleteTodo(
+    @Req() authReq,
+    @Body() req: DeleteTodoItemDto,
+    @Param('category') category: string,
+  ) {
+    const result = await this.todoService.deleteTodoItem(
+      authReq.user,
+      category,
+      req,
+    )
+
+    return result
+  }
+
+  @Post('delete/personal/todo/topic')
+  async deleteTodoTopic(
+    @Req() authReq,
+    // @Param('category') category: string,
+  ) {
+    return this.todoService.deleteTodoTopic(authReq.user)
+  }
 }
